@@ -1,28 +1,37 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <div id="myDiagramDiv"></div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import go from "gojs";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "Dijagram",
+  methods: {
+    init: function() {
+      var $ = go.GraphObject.make;
+      var myDiagram = $(go.Diagram, "myDiagramDiv");
+      var nodeDataArray = [{ key: "Alpha", color: 'lime' }, { key: "Beta", color: 'cyan' }];
+      var linkDataArray = [{ to: "Beta", from: "Alpha" }];
+      myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+      myDiagram.nodeTemplate = $(
+        go.Node,
+        "Auto",
+        $(go.Shape, "RoundedRectangle", { fill: "white" }),
+        $(go.TextBlock, "text")
+      );
+    },
+  },
+  mounted: function() {
+    this.init();
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+#myDiagramDiv {
+  width: 500px;
+  height: 500px;
+  border: 1px solid black;
 }
 </style>
